@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: /wp-admin/
 Allow: /
-Sitemap: https://yourdomain.com/sitemap.xml
+Sitemap: https://exactbrush.com/sitemap.xml
