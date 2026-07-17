@@ -1,4 +1,2 @@
 User-agent: *
-Disallow: /wp-admin/
-Allow: /
-Sitemap: https://exactbrush.com/sitemap.xml
+Disallow: /
