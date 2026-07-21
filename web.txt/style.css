@@ -1,0 +1,29 @@
+.labelcent0 {
+    text-align: center;
+}
+.labelcent1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+}
+.labelcent2 {
+    background: #2c3e50;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border-radius: 15px 0px 0px 15px;
+}
+.labelcent3 {
+    background: #2c3e50;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.labelcent4 {
+    background: #2c3e50;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border-radius: 0px 15px 15px 0px;
+}
+.labelcenta0{
+    background: rgba(44,62,80,0.5);
+}
+.labelcenta1{
+    background: rgba(44,62,80,0.5);
+}
