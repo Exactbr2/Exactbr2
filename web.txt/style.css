@@ -10,7 +10,7 @@
 .labelcent2 {
     background: #2c3e50;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    border-radius: 15px 0px 0px 15px;
+    border-radius: 7px 0px 0px 7px;
 }
 .labelcent3 {
     background: #2c3e50;
@@ -19,11 +19,102 @@
 .labelcent4 {
     background: #2c3e50;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    border-radius: 0px 15px 15px 0px;
+    border-radius: 0px 7px 7px 0px;
+}
+.labelcent5 {
+    background: #2c3e50;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border-radius: 7px 7px 7px 7px;
+}
+.labelcent6 {
+    background: #2c3e50;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border-radius: 7px 7px 7px 7px;
 }
 .labelcenta0{
     background: rgba(44,62,80,0.5);
 }
 .labelcenta1{
     background: rgba(44,62,80,0.5);
+}
+
+.labelcentmz2 {
+    background: #2c3e50;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border-radius: 7px 0px 0px 7px;
+}
+.labelcentmz3 {
+    background: #2c3e50;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.labelcentmz4 {
+    background: #2c3e50;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border-radius: 0px 7px 7px 0px;
+}
+.desktopcontent {
+  display: none;
+}
+
+.mobilecontent {
+  display: block;
+}
+@media (min-width: 768px) {
+  .desktopcontent {
+    display: block;
+  }
+  .mobilecontent {
+    display: none;
+  }
+}
+.horclass {
+    display: flex;
+}
+.windowspage0 {
+    background-color: rgba(0,0,0,0.3);
+    opacity: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: all 0.3s ease-in-out;
+    z-index: -1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.windowspage0.windpage0 {
+    opacity: 1;
+    z-index: 999;
+}
+.windowspage1 {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    padding: 15px 25px;
+    text-align: center;
+    width: 380px;
+}
+
+#boxs0 {
+    font-size: 25px;
+}
+#boxs1 {
+    width: 90px;
+    font-size: 25px;
+}
+#boxs2 {
+    width: 90px;
+    font-size: 25px;
+}
+#boxsd0 {
+    font-size: 25px;
+}
+.inputta0 {
+    color: #ee1100;
+}
+.inputta1 {
+    color: #ee1100;
 }
