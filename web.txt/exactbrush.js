@@ -5,6 +5,7 @@ const triggerBtn2 = document.querySelector('.labelcentmz2');
 const triggerBtn3 = document.querySelector('.labelcentmz3');
 const triggerBtn4 = document.querySelector('.windowspage0');
 const triggerBtn13 = document.querySelector('.windowspage1');
+const triggerBtn14 = document.getElementById('homean0');
 const PlusBtn0 = true;
 triggerBtn1.addEventListener('click', () => {
     triggerBtn4.classList.add('windpage0');
@@ -100,7 +101,80 @@ function myFunction(){
         if (!conInputs2 || !conInputs3) triggerBtn12.innerHTML = 'number is required';
         if (conInputs1 && conInputs2 && conInputs3){
             triggerBtn4.classList.remove('windpage0');
-            triggerBtn13.innerHTML = '';
+            const triggerBtn15 = document.getElementById('homean1');
+            triggerBtn15.style.display = 'flex';
+            triggerBtn15.innerHTML = `
+                <canvas width="500" height="500" id="canname0"></canvas>
+                <input type="color" id="colorhcff0">
+                <h1 id="exportBtn1">Export</h1>
+                <div class="windowspage2">
+                    <div class="windowspage3"></div>
+                </div>
+            `;
+            /**
+             * @type HTMLCanvasElement
+             */
+            const drawCanvas = document.getElementById('canname0');
+            const drawContext = drawCanvas.getContext('2d');
+            const colorhc0 = document.getElementById('colorhcff0');
+            const exportBtn1 = document.getElementById('exportBtn1');
+            const exportBtn0 = document.getElementById('exportBtn0');
+            drawContext.fillStyle = "#ff0000";
+            drawContext.fillRect(0, 0, drawCanvas.width, drawCanvas.height);
+            const connWidth0 = parseInt(document.getElementById('boxs2').value, 10);
+            const connHeight0 = parseInt(document.getElementById('boxs1').value, 10);
+            const canProjectname0 = document.getElementById('boxs0').value.trim() || 'project';
+            triggerBtn14.innerHTML = '';
+            const lePxWl0 = drawCanvas.width / connWidth0;
+            const lePxHl0 = drawCanvas.height / connHeight0;
+            colorhc0.value = "#00ff00";
+            exportBtn1.addEventListener('click', () => {
+                const styleExport1 = document.querySelector('.windowspage3');
+                const styleExport0 = document.querySelector('.windowspage2');
+                styleExport0.classList.add('windpage1');
+                styleExport1.innerHTML = 'hgddgddgfhgjfgdfew';
+            })
+            window.colorOnHc0 = function(gnXa, gnYa){
+                const startXa = gnXa * lePxWl0;
+                const startYa = gnYa * lePxHl0;
+                drawContext.fillStyle = colorhc0.value;
+                drawContext.fillRect(startXa, startYa, lePxWl0, lePxHl0);
+            }
+            let isDrawing0 = false;
+            function aPaintBb0(event){
+                const drawCanvasRect = drawCanvas.getBoundingClientRect();
+                const drawCanvasReXa = event.clientX - drawCanvasRect.left;
+                const drawCanvasReYa = event.clientY - drawCanvasRect.top;
+                const gnXa = Math.floor(drawCanvasReXa / lePxWl0);
+                const gnYa = Math.floor(drawCanvasReYa  / lePxHl0);
+                for(let forloop0 = 0; forloop0 < 5; forloop0++) colorOnHc0(gnXa, gnYa);
+            }
+            drawCanvas.addEventListener('mousedown', (event) => {
+                if (event.button !== 0){
+                    return;
+                }
+                isDrawing0 = true;
+                aPaintBb0(event);
+            });
+            drawCanvas.addEventListener('mousemove', (event) => {
+                if (isDrawing0){
+                    aPaintBb0(event);
+                }
+            });
+            window.addEventListener('mouseup', (event) => {
+                isDrawing0 = false;
+            });
+            exportBtn0.addEventListener('click', () => {
+                const exportCanvas0 = document.createElement('canvas');
+                exportCanvas0.width = connWidth0;
+                exportCanvas0.height = connHeight0;
+                const exportContext0 = exportCanvas0.getContext('2d');
+                exportContext0.drawImage(drawCanvas, 0, 0, connWidth0, connHeight0);
+                const linkPng0 = document.createElement('a');
+                linkPng0.download = `${canProjectname0}.png`;
+                linkPng0.href = exportCanvas0.toDataURL('image/png');
+                linkPng0.click();
+            })
         }
     });
     const triggerBtn7 = document.getElementById('boxs0');
@@ -153,4 +227,4 @@ triggerBtn0.addEventListener('click', () => {
 triggerBtn2.addEventListener('click', () => {
     fileInput.click();
 });
-//const triggerBtn13 is used
+//const triggerBtn15 is used

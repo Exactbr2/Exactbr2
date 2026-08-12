@@ -11,31 +11,38 @@
     background: #2c3e50;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     border-radius: 7px 0px 0px 7px;
+    cursor: pointer;
 }
 .labelcent3 {
     background: #2c3e50;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    cursor: pointer;
 }
 .labelcent4 {
     background: #2c3e50;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     border-radius: 0px 7px 7px 0px;
+    cursor: pointer;
 }
 .labelcent5 {
     background: #2c3e50;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     border-radius: 7px 7px 7px 7px;
+    cursor: pointer;
 }
 .labelcent6 {
     background: #2c3e50;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     border-radius: 7px 7px 7px 7px;
+    cursor: pointer;
 }
 .labelcenta0{
     background: rgba(44,62,80,0.5);
+    cursor: default;
 }
 .labelcenta1{
     background: rgba(44,62,80,0.5);
+    cursor: default;
 }
 
 .labelcentmz2 {
@@ -85,9 +92,36 @@
     align-items: center;
     justify-content: center;
 }
+.windowspage2 {
+    background-color: rgba(0,0,0,0.3);
+    opacity: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: all 0.3s ease-in-out;
+    z-index: -1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.windowspage2.windpage1 {
+    opacity: 1;
+    z-index: 999;
+}
 .windowspage0.windpage0 {
     opacity: 1;
     z-index: 999;
+}
+.windowspage3 {
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    padding: 15px 25px;
+    text-align: center;
+    width: 380px;
 }
 .windowspage1 {
     background-color: #ffffff;
@@ -117,4 +151,13 @@
 }
 .inputta1 {
     color: #ee1100;
+}
+#homean1{
+    display: none;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+#canname0{
+    border: 2px solid black;
 }
