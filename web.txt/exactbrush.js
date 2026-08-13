@@ -141,10 +141,20 @@ function myFunction(){
                 drawContext.fillRect(startXa, startYa, lePxWl0, lePxHl0);
             }
             let isDrawing0 = false;
+            let isDrawing1 = false;
             function aPaintBb0(event){
                 const drawCanvasRect = drawCanvas.getBoundingClientRect();
                 const drawCanvasReXa = event.clientX - drawCanvasRect.left;
                 const drawCanvasReYa = event.clientY - drawCanvasRect.top;
+                const gnXa = Math.floor(drawCanvasReXa / lePxWl0);
+                const gnYa = Math.floor(drawCanvasReYa  / lePxHl0);
+                for(let forloop0 = 0; forloop0 < 5; forloop0++) colorOnHc0(gnXa, gnYa);
+            }
+            function aPaintBb1(event){
+                const drawCanvasRect = drawCanvas.getBoundingClientRect();
+                const touchlee = event.touches ? event.touches[0] : event
+                const drawCanvasReXa = touchlee.clientX - drawCanvasRect.left;
+                const drawCanvasReYa = touchlee.clientY - drawCanvasRect.top;
                 const gnXa = Math.floor(drawCanvasReXa / lePxWl0);
                 const gnYa = Math.floor(drawCanvasReYa  / lePxHl0);
                 for(let forloop0 = 0; forloop0 < 5; forloop0++) colorOnHc0(gnXa, gnYa);
@@ -164,6 +174,18 @@ function myFunction(){
             window.addEventListener('mouseup', (event) => {
                 isDrawing0 = false;
             });
+            drawCanvas.addEventListener('touchstart', (event) => {
+                isDrawing1 = true;
+                aPaintBb1(event);
+            });
+            drawCanvas.addEventListener('touchmove', (event) => {
+                if (isDrawing1){
+                    aPaintBb1(event);
+                }
+            });
+            drawCanvas.addEventListener('touchend', (event) => {
+                isDrawing1 = false;
+            });
             exportBtn0.addEventListener('click', () => {
                 const exportCanvas0 = document.createElement('canvas');
                 exportCanvas0.width = connWidth0;
@@ -174,7 +196,7 @@ function myFunction(){
                 linkPng0.download = `${canProjectname0}.png`;
                 linkPng0.href = exportCanvas0.toDataURL('image/png');
                 linkPng0.click();
-            })
+            });
         }
     });
     const triggerBtn7 = document.getElementById('boxs0');
