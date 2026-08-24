@@ -131,12 +131,19 @@ function myFunction(){
             const exportBtn1 = document.getElementById('exportBtn1');
             const exportBtn0 = document.getElementById('exportBtn0');
             const typePencilSize0 = document.getElementById('typePencilSize0');
+            const maxPencilSize0 = Math.min(connWidth0, connHeight0);
+            typePencilSize0.max = maxPencilSize0;
+            typePencilSize0.value = 1;
             drawContext.fillStyle = "#ff0000";
             drawContext.fillRect(0, 0, drawCanvas.width, drawCanvas.height);
             const connWidth0 = parseInt(document.getElementById('boxs2').value, 10);
             const connHeight0 = parseInt(document.getElementById('boxs1').value, 10);
             const canProjectname0 = document.getElementById('boxs0').value.trim();
             triggerBtn14.innerHTML = '';
+            const maxDrawCanvasSize0 = 500;
+            const maxDrawCanvasSize1 = Math.min(maxDrawCanvasSize0 / connWidth0, maxDrawCanvasSize0 / connHeight0);
+            drawCanvas.width = Math.round(connWidth0 * maxDrawCanvasSize1);
+            drawCanvas.height = Math.round(connHeight0 * maxDrawCanvasSize1);
             const lePxWl0 = drawCanvas.width / connWidth0;
             const lePxHl0 = drawCanvas.height / connHeight0;
             colorhc0.value = "#00ff00";
@@ -269,6 +276,21 @@ function myFunction(){
                 linkPng0.href = exportCanvas0.toDataURL('image/png');
                 linkPng0.click();
             });
+            function updateCanvasCursor0(){
+                const nPencilSize0 = parseInt(typePencilSize0.value, 10);
+                const cursorWidth = Math.max(lePxWl0 * nPencilSize0, 4);
+                const cursorHeight = Math.max(lePxHl0 * nPencilSize0, 4);
+                const svgSvg0 = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="${cursorWidth}" height="${cursorHeight}">
+                        <rect width="100%" height="100%" fill="none" stroke="black" stroke-width="1"/>
+                        <rect width="100%" height="100%" fill="none" stroke="white" stroke-width="1" stroke-dasharray="2,2"/>
+                    </svg>
+                `.trim();
+                const encodedSvg0 = encodeURIComponent(svgSvg0);
+                drawCanvas.style.cursor = `url("data:image/svg+xml,${encodedSvg0}") 0 0, crosshair`;
+            }
+            updateCanvasCursor0();
+            typePencilSize0.addEventListener('input', updateCanvasCursor0);
         }
     });
     const triggerBtn7 = document.getElementById('boxs0');

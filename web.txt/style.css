@@ -160,7 +160,6 @@
 }
 #canname0{
     border: 2px solid black;
-    image-rendering: pixelated;
 }
 #taskbar0{
     position: relative;
