@@ -103,14 +103,25 @@ function myFunction(){
             triggerBtn4.classList.remove('windpage0');
             const triggerBtn15 = document.getElementById('homean1');
             triggerBtn15.style.display = 'flex';
-            triggerBtn15.innerHTML = `
-                <canvas width="500" height="500" id="canname0"></canvas>
-                <input type="color" id="colorhcff0">
-                <h1 id="exportBtn1">Export</h1>
-                <div class="windowspage2">
-                    <div class="windowspage3"></div>
-                </div>
-            `;
+            if (PlusBtn0){
+                triggerBtn15.innerHTML = `
+                    <div id="taskbar0">
+                        <img id="usingdraw0" src="usingdraw.png">
+                        <br>
+                        <input type="color" id="colorhcff0">
+                    </div>
+                    <div id="taskbar1">
+                        <label for="typePencilSize0">Size:</label>
+                        <input type="range" id="pencilSize0" min="1" max="10" value="1">
+                        <input type="number" id="typePencilSize0" min="1" max="10">
+                    </div>
+                    <canvas width="500" height="500" id="canname0"></canvas>
+                    <h1 id="exportBtn1">Export</h1>
+                    <div class="windowspage2">
+                        <div class="windowspage3"></div>
+                    </div>
+                `;
+            }
             /**
              * @type HTMLCanvasElement
              */
@@ -119,11 +130,12 @@ function myFunction(){
             const colorhc0 = document.getElementById('colorhcff0');
             const exportBtn1 = document.getElementById('exportBtn1');
             const exportBtn0 = document.getElementById('exportBtn0');
+            const typePencilSize0 = document.getElementById('typePencilSize0');
             drawContext.fillStyle = "#ff0000";
             drawContext.fillRect(0, 0, drawCanvas.width, drawCanvas.height);
             const connWidth0 = parseInt(document.getElementById('boxs2').value, 10);
             const connHeight0 = parseInt(document.getElementById('boxs1').value, 10);
-            const canProjectname0 = document.getElementById('boxs0').value.trim() || 'project';
+            const canProjectname0 = document.getElementById('boxs0').value.trim();
             triggerBtn14.innerHTML = '';
             const lePxWl0 = drawCanvas.width / connWidth0;
             const lePxHl0 = drawCanvas.height / connHeight0;
@@ -133,58 +145,118 @@ function myFunction(){
                 const styleExport0 = document.querySelector('.windowspage2');
                 styleExport0.classList.add('windpage1');
                 styleExport1.innerHTML = 'hgddgddgfhgjfgdfew';
-            })
+            });
             window.colorOnHc0 = function(gnXa, gnYa){
-                const startXa = gnXa * lePxWl0;
-                const startYa = gnYa * lePxHl0;
+                const nPencilSize0 = parseInt(typePencilSize0.value, 10);
                 drawContext.fillStyle = colorhc0.value;
-                drawContext.fillRect(startXa, startYa, lePxWl0, lePxHl0);
+                for(let dx = 0; dx < nPencilSize0; dx++){
+                    for(let dy = 0; dy < nPencilSize0; dy++) {
+                        const targetX = gnXa + dx;
+                        const targetY = gnYa + dy;
+                        if (targetX < connWidth0 && targetY < connHeight0){
+                            const startXa = targetX * lePxWl0;
+                            const startYa = targetY * lePxHl0;
+                            drawContext.fillRect(startXa, startYa, lePxWl0, lePxHl0);
+                        }
+                    }
+                }
+            };
+            function drawGridLine(x0, y0, x1, y1) {
+                const dx = Math.abs(x1 - x0);
+                const dy = Math.abs(y1 - y0);
+                const sx = x0 < x1 ? 1 : -1;
+                const sy = y0 < y1 ? 1 : -1;
+                let err = dx - dy;
+
+                while (true) {
+                    window.colorOnHc0(x0, y0);
+                    if (x0 === x1 && y0 === y1) break;
+                    const e2 = 2 * err;
+                    if (e2 > -dy) {
+                        err -= dy;
+                        x0 += sx;
+                    }
+                    if (e2 < dx) {
+                        err += dx;
+                        y0 += sy;
+                    }
+                }
             }
             let isDrawing0 = false;
             let isDrawing1 = false;
+            let LastXa0 = null;
+            let LastYa0 = null;
             function aPaintBb0(event){
                 const drawCanvasRect = drawCanvas.getBoundingClientRect();
                 const drawCanvasReXa = event.clientX - drawCanvasRect.left;
                 const drawCanvasReYa = event.clientY - drawCanvasRect.top;
                 const gnXa = Math.floor(drawCanvasReXa / lePxWl0);
                 const gnYa = Math.floor(drawCanvasReYa  / lePxHl0);
-                for(let forloop0 = 0; forloop0 < 5; forloop0++) colorOnHc0(gnXa, gnYa);
+                if (LastXa0 !== null && LastYa0 !== null){
+                    drawGridLine(LastXa0, LastYa0, gnXa, gnYa);
+                } else {
+                    for(let forloop0 = 0; forloop0 < 10; forloop0++) colorOnHc0(gnXa, gnYa);
+                }
+                LastXa0 = gnXa;
+                LastYa0 = gnYa;
             }
             function aPaintBb1(event){
                 const drawCanvasRect = drawCanvas.getBoundingClientRect();
-                const touchlee = event.touches ? event.touches[0] : event
+                const touchlee = event.touches ? event.touches[0] : event;
                 const drawCanvasReXa = touchlee.clientX - drawCanvasRect.left;
                 const drawCanvasReYa = touchlee.clientY - drawCanvasRect.top;
                 const gnXa = Math.floor(drawCanvasReXa / lePxWl0);
                 const gnYa = Math.floor(drawCanvasReYa  / lePxHl0);
-                for(let forloop0 = 0; forloop0 < 5; forloop0++) colorOnHc0(gnXa, gnYa);
+                if (LastXa0 !== null && LastYa0 !== null){
+                    drawGridLine(LastXa0, LastYa0, gnXa, gnYa);
+                } else {
+                    for(let forloop0 = 0; forloop0 < 10; forloop0++) colorOnHc0(gnXa, gnYa);
+                }
+                LastXa0 = gnXa;
+                LastYa0 = gnYa;
             }
             drawCanvas.addEventListener('mousedown', (event) => {
+                event.preventDefault();
                 if (event.button !== 0){
                     return;
                 }
+                LastXa0 = null;
+                LastYa0 = null;
                 isDrawing0 = true;
                 aPaintBb0(event);
             });
             drawCanvas.addEventListener('mousemove', (event) => {
+                event.preventDefault();
                 if (isDrawing0){
                     aPaintBb0(event);
                 }
             });
             window.addEventListener('mouseup', (event) => {
                 isDrawing0 = false;
+                LastXa0 = null;
+                LastYa0 = null;
+            });
+            drawCanvas.addEventListener('mouseout', (event) => {
+                LastXa0 = null;
+                LastYa0 = null;
             });
             drawCanvas.addEventListener('touchstart', (event) => {
+                event.preventDefault();
                 isDrawing1 = true;
                 aPaintBb1(event);
+                LastXa0 = null;
+                LastYa0 = null;
             });
             drawCanvas.addEventListener('touchmove', (event) => {
+                event.preventDefault();
                 if (isDrawing1){
                     aPaintBb1(event);
                 }
             });
             drawCanvas.addEventListener('touchend', (event) => {
                 isDrawing1 = false;
+                LastXa0 = null;
+                LastYa0 = null;
             });
             exportBtn0.addEventListener('click', () => {
                 const exportCanvas0 = document.createElement('canvas');
