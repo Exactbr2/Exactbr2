@@ -103,6 +103,9 @@ function myFunction(){
             triggerBtn4.classList.remove('windpage0');
             const triggerBtn15 = document.getElementById('homean1');
             triggerBtn15.style.display = 'flex';
+            const connWidth0 = parseInt(document.getElementById('boxs2').value, 10);
+            const connHeight0 = parseInt(document.getElementById('boxs1').value, 10);
+            const canProjectname0 = document.getElementById('boxs0').value.trim();
             if (PlusBtn0){
                 triggerBtn15.innerHTML = `
                     <div id="taskbar0">
@@ -115,7 +118,7 @@ function myFunction(){
                         <input type="range" id="pencilSize0" min="1" max="10" value="1">
                         <input type="number" id="typePencilSize0" min="1" max="10">
                     </div>
-                    <canvas width="500" height="500" id="canname0"></canvas>
+                    <canvas id="canname0"></canvas>
                     <h1 id="exportBtn1">Export</h1>
                     <div class="windowspage2">
                         <div class="windowspage3"></div>
@@ -136,9 +139,6 @@ function myFunction(){
             typePencilSize0.value = 1;
             drawContext.fillStyle = "#ff0000";
             drawContext.fillRect(0, 0, drawCanvas.width, drawCanvas.height);
-            const connWidth0 = parseInt(document.getElementById('boxs2').value, 10);
-            const connHeight0 = parseInt(document.getElementById('boxs1').value, 10);
-            const canProjectname0 = document.getElementById('boxs0').value.trim();
             triggerBtn14.innerHTML = '';
             const maxDrawCanvasSize0 = 500;
             const maxDrawCanvasSize1 = Math.min(maxDrawCanvasSize0 / connWidth0, maxDrawCanvasSize0 / connHeight0);
@@ -265,17 +265,6 @@ function myFunction(){
                 LastXa0 = null;
                 LastYa0 = null;
             });
-            exportBtn0.addEventListener('click', () => {
-                const exportCanvas0 = document.createElement('canvas');
-                exportCanvas0.width = connWidth0;
-                exportCanvas0.height = connHeight0;
-                const exportContext0 = exportCanvas0.getContext('2d');
-                exportContext0.drawImage(drawCanvas, 0, 0, connWidth0, connHeight0);
-                const linkPng0 = document.createElement('a');
-                linkPng0.download = `${canProjectname0}.png`;
-                linkPng0.href = exportCanvas0.toDataURL('image/png');
-                linkPng0.click();
-            });
             function updateCanvasCursor0(){
                 const nPencilSize0 = parseInt(typePencilSize0.value, 10);
                 const cursorWidth = Math.max(lePxWl0 * nPencilSize0, 4);
@@ -287,10 +276,21 @@ function myFunction(){
                     </svg>
                 `.trim();
                 const encodedSvg0 = encodeURIComponent(svgSvg0);
-                drawCanvas.style.cursor = `url("data:image/svg+xml,${encodedSvg0}") 0 0, crosshair`;
+                drawCanvas.style.cursor = `url("data:image/svg+xml,${encodedSvg0}") ${cursorWidth / 2} ${cursorHeight / 2}, crosshair`;
             }
             updateCanvasCursor0();
             typePencilSize0.addEventListener('input', updateCanvasCursor0);
+            exportBtn0.addEventListener('click', () => {
+                const exportCanvas0 = document.createElement('canvas');
+                exportCanvas0.width = connWidth0;
+                exportCanvas0.height = connHeight0;
+                const exportContext0 = exportCanvas0.getContext('2d');
+                exportContext0.drawImage(drawCanvas, 0, 0, connWidth0, connHeight0);
+                const linkPng0 = document.createElement('a');
+                linkPng0.download = `${canProjectname0}.png`;
+                linkPng0.href = exportCanvas0.toDataURL('image/png');
+                linkPng0.click();
+            });
         }
     });
     const triggerBtn7 = document.getElementById('boxs0');
