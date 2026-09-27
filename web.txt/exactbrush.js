@@ -119,7 +119,7 @@ function myFunction(){
                         <input type="number" id="typePencilSize0" min="1">
                     </div>
                     <canvas id="canname0"></canvas>
-                    <canvas id="CursorCanvas" style="position: absolute; top: 0; left: 0; pointer-events: none;></canvas>
+                    <canvas id="CursorCanvas" style="position: absolute; top: 0; left: 0; pointer-events: none;"></canvas>
                     <h1 id="exportBtn1">Export</h1>
                     <div class="windowspage2">
                         <div class="windowspage3"></div>
