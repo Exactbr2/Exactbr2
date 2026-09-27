@@ -105,7 +105,7 @@ function myFunction(){
             triggerBtn15.style.display = 'flex';
             const connWidth0 = parseInt(document.getElementById('boxs2').value, 10);
             const connHeight0 = parseInt(document.getElementById('boxs1').value, 10);
-            const canProjectname0 = document.getElementById('boxs0').value.trim();
+            const canProjectname0 = document.getElementById('boxs0').value.trim() || 'untitled';
             if (PlusBtn0){
                 triggerBtn15.innerHTML = `
                     <div id="taskbar0">
@@ -115,10 +115,11 @@ function myFunction(){
                     </div>
                     <div id="taskbar1">
                         <label for="typePencilSize0">Size:</label>
-                        <input type="range" id="pencilSize0" min="1" max="10" value="1">
-                        <input type="number" id="typePencilSize0" min="1" max="10">
+                        <input type="range" id="pencilSize0" min="1" value="1">
+                        <input type="number" id="typePencilSize0" min="1">
                     </div>
                     <canvas id="canname0"></canvas>
+                    <canvas id="CursorCanvas"></canvas>
                     <h1 id="exportBtn1">Export</h1>
                     <div class="windowspage2">
                         <div class="windowspage3"></div>
@@ -134,8 +135,10 @@ function myFunction(){
             const exportBtn1 = document.getElementById('exportBtn1');
             const exportBtn0 = document.getElementById('exportBtn0');
             const typePencilSize0 = document.getElementById('typePencilSize0');
+            const pencilSize0 = document.getElementById('pencilSize0');
             const maxPencilSize0 = Math.min(connWidth0, connHeight0);
             typePencilSize0.max = maxPencilSize0;
+            pencilSize0.max = maxPencilSize0;
             typePencilSize0.value = 1;
             drawContext.fillStyle = "#ff0000";
             drawContext.fillRect(0, 0, drawCanvas.width, drawCanvas.height);
@@ -156,14 +159,18 @@ function myFunction(){
             window.colorOnHc0 = function(gnXa, gnYa){
                 const nPencilSize0 = parseInt(typePencilSize0.value, 10);
                 drawContext.fillStyle = colorhc0.value;
-                for(let dx = 0; dx < nPencilSize0; dx++){
-                    for(let dy = 0; dy < nPencilSize0; dy++) {
-                        const targetX = gnXa + dx;
-                        const targetY = gnYa + dy;
-                        if (targetX < connWidth0 && targetY < connHeight0){
-                            const startXa = targetX * lePxWl0;
-                            const startYa = targetY * lePxHl0;
-                            drawContext.fillRect(startXa, startYa, lePxWl0, lePxHl0);
+                const radius = nPencilSize0 / 2;
+                const centerOffset = radius - 0.5;
+                for(let dx = -Math.floor(radius); dx <= Math.ceil(radius); dx++){
+                    for(let dy = -Math.floor(radius); dy <= Math.ceil(radius); dy++) {
+                        if ((dx * dx) + (dy * dy) <= radius * radius) {
+                            const targetX = gnXa + dx;
+                            const targetY = gnYa + dy;
+                            if (targetX < connWidth0 && targetY < connHeight0){
+                                const startXa = targetX * lePxWl0;
+                                const startYa = targetY * lePxHl0;
+                                drawContext.fillRect(startXa, startYa, lePxWl0, lePxHl0);
+                            }
                         }
                     }
                 }
@@ -265,21 +272,65 @@ function myFunction(){
                 LastXa0 = null;
                 LastYa0 = null;
             });
+            let trCenter0 = NaN;
+            if (connHeight0 < connWidth0){
+                trCenter0 = connWidth0 / 500;
+            }
+            if (connHeight0 > connWidth0){
+                trCenter0 = connHeight0 / 500;
+            }
+            if (connHeight0 === connWidth0){
+                trCenter0 = connWidth0 / 500;
+            }
             function updateCanvasCursor0(){
                 const nPencilSize0 = parseInt(typePencilSize0.value, 10);
-                const cursorWidth = Math.max(lePxWl0 * nPencilSize0, 4);
-                const cursorHeight = Math.max(lePxHl0 * nPencilSize0, 4);
-                const svgSvg0 = `
-                    <svg xmlns="http://www.w3.org/2000/svg" width="${cursorWidth}" height="${cursorHeight}">
-                        <rect width="100%" height="100%" fill="none" stroke="black" stroke-width="1"/>
-                        <rect width="100%" height="100%" fill="none" stroke="white" stroke-width="1" stroke-dasharray="2,2"/>
-                    </svg>
-                `.trim();
-                const encodedSvg0 = encodeURIComponent(svgSvg0);
-                drawCanvas.style.cursor = `url("data:image/svg+xml,${encodedSvg0}") ${cursorWidth / 2} ${cursorHeight / 2}, crosshair`;
+                /**
+                 * @type HTMLCanvasElement
+                 */
+                const CursorCanvas = document.getElementById('CursorCanvas');
+                const CursorContext = CursorCanvas.getContext('2d');
+                CursorCanvas.width = drawCanvas.width;
+                CursorCanvas.height = drawCanvas.height;
+                function updateCanvasCursor1(mouseX, mouseY){
+                    CursorContext.clearRect(0, 0, CursorCanvas.width, CursorCanvas.height);
+                    if(mouseX !== undefined && mouseY !== undefined){
+                        const radius = (Math.min(lePxWl0, lePxHl0) * nPencilSize0) / 2;
+                        CursorContext.beginPath();
+                        CursorContext.arc(mouseX, mouseY, radius, 0, Math.PI * 2);
+                        CursorContext.strokeStyle = 'black';
+                        CursorContext.lineWidth = 1.5;
+                        CursorContext.stroke();
+                        CursorContext.beginPath();
+                        CursorContext.arc(mouseX, mouseY, radius, 0, Math.PI * 2);
+                        CursorContext.setLineDash([3, 3]);
+                        CursorContext.strokeStyle = 'white';
+                        CursorContext.lineWidth = 1;
+                        CursorContext.stroke();
+                        CursorContext.setLineDash([]);
+                    }
+                }
+                drawCanvas.addEventListener('mousemove', (event) => {
+                    const rect = drawCanvas.getBoundingClientRect();
+                    const x = event.clientX - rect.left;
+                    const y = event.clientY - rect.top;
+                    updateCanvasCursor0(x, y);
+                });
+                drawCanvas.addEventListener('mouseleave', () => {
+                    CursorContext.clearRect(0, 0, CursorCanvas.width, CursorCanvas.height);
+                });
+                if (nPencilSize0 <= trCenter0){
+                } else {
+                }
             }
             updateCanvasCursor0();
-            typePencilSize0.addEventListener('input', updateCanvasCursor0);
+            pencilSize0.addEventListener('input', () => {
+                typePencilSize0.value = pencilSize0.value;
+                updateCanvasCursor0();
+            });
+            typePencilSize0.addEventListener('input', () => {
+                pencilSize0.value = typePencilSize0.value;
+                updateCanvasCursor0();
+            });
             exportBtn0.addEventListener('click', () => {
                 const exportCanvas0 = document.createElement('canvas');
                 exportCanvas0.width = connWidth0;
