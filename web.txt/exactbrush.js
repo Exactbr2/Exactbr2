@@ -111,6 +111,8 @@ function myFunction(){
                     <div id="taskbar0">
                         <img id="usingdraw0" src="usingdraw.png">
                         <br>
+                        <img id="usingbrush0" src="usingbrush.png">
+                        <br>
                         <input type="color" id="colorhcff0">
                     </div>
                     <div id="taskbar1">
@@ -118,8 +120,10 @@ function myFunction(){
                         <input type="range" id="pencilSize0" min="1" value="1">
                         <input type="number" id="typePencilSize0" min="1">
                     </div>
-                    <canvas id="canname0"></canvas>
-                    <canvas id="CursorCanvas" style="position: absolute; top: 0; left: 0; pointer-events: none;"></canvas>
+                    <div id="taskbar2">
+                        <canvas id="canname0"></canvas>
+                        <canvas id="CursorCanvas" style="position: absolute; top: 0; left: 0; pointer-events: none;"></canvas>
+                    </div>
                     <h1 id="exportBtn1">Export</h1>
                     <div class="windowspage2">
                         <div class="windowspage3"></div>
@@ -140,16 +144,31 @@ function myFunction(){
             typePencilSize0.max = maxPencilSize0;
             pencilSize0.max = maxPencilSize0;
             typePencilSize0.value = 1;
-            drawContext.fillStyle = "#ff0000";
-            drawContext.fillRect(0, 0, drawCanvas.width, drawCanvas.height);
             triggerBtn14.innerHTML = '';
             const maxDrawCanvasSize0 = 500;
             const maxDrawCanvasSize1 = Math.min(maxDrawCanvasSize0 / connWidth0, maxDrawCanvasSize0 / connHeight0);
             drawCanvas.width = Math.round(connWidth0 * maxDrawCanvasSize1);
             drawCanvas.height = Math.round(connHeight0 * maxDrawCanvasSize1);
+            const CursorCanvas1 = document.getElementById('CursorCanvas');
+            CursorCanvas1.width = drawCanvas.width;
+            CursorCanvas1.height = drawCanvas.height;
             const lePxWl0 = drawCanvas.width / connWidth0;
             const lePxHl0 = drawCanvas.height / connHeight0;
-            colorhc0.value = "#00ff00";
+            colorhc0.value = '#00ff00'
+            let currentTool = 'pencil';
+            const usingbrush0 = document.getElementById('usingbrush0');
+            const usingdraw0 = document.getElementById('usingdraw0');
+            usingdraw0.classList.add('imgimg0');
+            usingdraw0.addEventListener('click', () => {
+                currentTool = 'pencil';
+                usingdraw0.classList.add('imgimg0');
+                usingbrush0.classList.remove('imgimg0');
+            });
+            usingbrush0.addEventListener('click', () => {
+                currentTool = 'brush';
+                usingbrush0.classList.add('imgimg0');
+                usingdraw0.classList.remove('imgimg0');
+            });
             exportBtn1.addEventListener('click', () => {
                 const styleExport1 = document.querySelector('.windowspage3');
                 const styleExport0 = document.querySelector('.windowspage2');
@@ -158,7 +177,6 @@ function myFunction(){
             });
             window.colorOnHc0 = function(gnXa, gnYa){
                 const nPencilSize0 = parseInt(typePencilSize0.value, 10);
-                drawContext.fillStyle = colorhc0.value;
                 const radius = nPencilSize0 / 2;
                 const centerOffset = radius - 0.5;
                 for(let dx = -Math.floor(radius); dx <= Math.ceil(radius); dx++){
@@ -169,7 +187,18 @@ function myFunction(){
                             if (targetX < connWidth0 && targetY < connHeight0){
                                 const startXa = targetX * lePxWl0;
                                 const startYa = targetY * lePxHl0;
-                                drawContext.fillRect(startXa, startYa, lePxWl0, lePxHl0);
+                                if (currentTool === 'pencil') {
+                                    drawContext.fillStyle = colorhc0.value;
+                                    drawContext.fillRect(startXa, startYa, lePxWl0, lePxHl0);
+                                }
+                                if (currentTool === 'brush') {
+                                    const hex = colorhc0.value;
+                                    const r = parseInt(hex.slice(1, 3), 16);
+                                    const g = parseInt(hex.slice(3, 5), 16);
+                                    const b = parseInt(hex.slice(5, 7), 16);
+                                    drawContext.fillStyle = `rgba(${r}, ${g}, ${b}, 0.2)`;
+                                    drawContext.fillRect(startXa, startYa, lePxWl0, lePxHl0);
+                                }
                             }
                         }
                     }
@@ -274,13 +303,13 @@ function myFunction(){
             });
             let trCenter0 = NaN;
             if (connHeight0 < connWidth0){
-                trCenter0 = connWidth0 / 500;
+                trCenter0 = connWidth0 / 200;
             }
             if (connHeight0 > connWidth0){
-                trCenter0 = connHeight0 / 500;
+                trCenter0 = connHeight0 / 200;
             }
             if (connHeight0 === connWidth0){
-                trCenter0 = connWidth0 / 500;
+                trCenter0 = connWidth0 / 200;
             }
             function updateCanvasCursor0(){
                 const nPencilSize0 = parseInt(typePencilSize0.value, 10);
@@ -292,6 +321,11 @@ function myFunction(){
                 CursorCanvas.width = drawCanvas.width;
                 CursorCanvas.height = drawCanvas.height;
                 function updateCanvasCursor1(mouseX, mouseY){
+                    if (nPencilSize0 <= trCenter0){
+                        drawCanvas.style.cursor = 'crosshair';
+                    } else {
+                        drawCanvas.style.cursor = 'none';
+                    }
                     CursorContext.clearRect(0, 0, CursorCanvas.width, CursorCanvas.height);
                     if(mouseX !== undefined && mouseY !== undefined){
                         const radius = (Math.min(lePxWl0, lePxHl0) * nPencilSize0) / 2;
@@ -313,14 +347,11 @@ function myFunction(){
                     const rect = drawCanvas.getBoundingClientRect();
                     const x = event.clientX - rect.left;
                     const y = event.clientY - rect.top;
-                    updateCanvasCursor0(x, y);
+                    updateCanvasCursor1(x, y);
                 });
                 drawCanvas.addEventListener('mouseleave', () => {
                     CursorContext.clearRect(0, 0, CursorCanvas.width, CursorCanvas.height);
                 });
-                if (nPencilSize0 <= trCenter0){
-                } else {
-                }
             }
             updateCanvasCursor0();
             pencilSize0.addEventListener('input', () => {
